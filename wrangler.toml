@@ -1,0 +1,12 @@
+name = "byvibe"
+compatibility_date = "2026-01-05"
+main = "worker.js"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+
+# 自定义域名路由配置
+[[routes]]
+pattern = "byvibe.ai/*"
+zone_name = "byvibe.ai"

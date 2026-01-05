@@ -1,0 +1,25 @@
+{
+  "name": "byvibe-deploy",
+  "version": "1.0.0",
+  "description": "这是 byvibe.ai 网站的完整部署包。",
+  "main": "script.js",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/creatbyvibe/byvibe-first.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/creatbyvibe/byvibe-first/issues"
+  },
+  "homepage": "https://github.com/creatbyvibe/byvibe-first#readme",
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}
