@@ -1,4 +1,4 @@
-// Cloudflare Workers - 静态网站处理 + API 端点 + 邮件通知
+// Cloudflare Workers - 静态网站处理 + API 端点 + 邮件通知（使用 EmailJS）
 export default {
   async fetch(request, env, ctx) {
     try {
@@ -90,6 +90,46 @@ export default {
             emailSent: emailSent,
             emailError: emailError || null
           }), {
+            status: 200,
+            headers: { 
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          });
+        } catch (error) {
+          return new Response(JSON.stringify({ 
+            success: false, 
+            error: error.message 
+          }), {
+            status: 500,
+            headers: { 
+              'Content-Type': 'application/json',
+              'Access-Control-Allow-Origin': '*'
+            }
+          });
+        }
+      }
+
+      // 处理 CORS 预检请求
+      if (request.method === 'OPTIONS') {
+        return new Response(null, {
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'POST, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type',
+          }
+        });
+      }
+
+      // 处理 /submit 路径 - 返回 VibeToolbox（让 SPA 路由处理）
+      if (pathname === '/submit' || pathname === '/submit/') {
+        const toolboxIndexRequest = new Request(new URL('/toolbox/index.html', request.url), request);
+        const toolboxResponse = await env.ASSETS.fetch(toolboxIndexRequest);
+        if (toolboxResponse.status === 200) {
+          return toolboxResponse;
+        }
+      }
+
       // 处理 /toolbox 路径（重定向到 /toolbox/）
       if (pathname === '/toolbox') {
         return Response.redirect(new URL('/toolbox/', request.url), 301);
